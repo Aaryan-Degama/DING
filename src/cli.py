@@ -3,7 +3,7 @@ from src import data
 
 
 def init(args):
-    data.init()
+    data.init(args.path)
 
 
 def hash_objects(args):
@@ -14,7 +14,14 @@ def parse_args():
 
     commands = parser.add_subparsers(dest="command", required=True)
 
-    init_parser = commands.add_parser("init")
+    init_parser = commands.add_parser("init", help="initializes an empty ding repository")
+
+    init_parser.add_argument(
+        "path",
+        nargs="?",
+        default=".",
+        help="directory to initialize the ding repository in (default: current directory)"
+    )
     init_parser.set_defaults(func=init)
 
     hash_parser = commands.add_parser("hash")
@@ -28,6 +35,7 @@ def parse_args():
 def main():
     args = parse_args()
     args.func(args)
+
 
 if __name__ == "__main__":
     main()
