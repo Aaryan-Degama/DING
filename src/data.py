@@ -6,12 +6,14 @@ Ding_dir = ".ding"
 def init():
     cwd = os.getcwd()
     ding_path = os.path.join(cwd, Ding_dir)
-
+    objects_path = os.path.join(ding_path, "objects")
+  
     if os.path.exists(ding_path):
         print("It is already a ding repository")
         return
 
     os.mkdir(ding_path)
+    os.mkdir(objects_path)
     print(f"Initialisied a ding repo in {ding_path}")
 
 
