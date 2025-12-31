@@ -1,5 +1,8 @@
 import os
 import hashlib
+import zlib
+
+import time
 
 DING_DIR = ".ding"
 
@@ -64,7 +67,14 @@ def hash_objects(args):
         return
 
     oid = hashlib.sha256(content).hexdigest()
-    print(oid)
-    object_file_path = os.path.join(objects_path, oid)
-    with open(object_file_path, "wb") as f:
-        f.write(content)
+
+    # Compressing using zlib (level 6), I found it had the best efficency with accountance to time and compression size of the file
+    compressed = zlib.compress(content, level=6)
+
+    object_file_path = os.path.join(objects_path,oid)
+    
+    if not os.path.exists(object_file_path):
+        with open(object_file_path,"wb") as f :
+            f.write(compressed)
+
+    #print(f"{args.file} is compressed")   #Optional
